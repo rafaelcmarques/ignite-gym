@@ -4,6 +4,7 @@ import { NativeBaseProvider } from 'native-base'
 import { Loading } from '@components/Loading';
 
 import { Routes } from '@routes/index';
+import { Home } from '@screens/Home';
 
 import {THEME} from './src/theme'
 
