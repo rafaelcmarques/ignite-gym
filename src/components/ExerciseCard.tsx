@@ -17,6 +17,7 @@ export function ExerciseCard({...rest}: Props){
           h={16}
           borderRadius={"md"}
           mr={4}
+          resizeMode="cover"
         />
 
         <VStack flex={1}>
