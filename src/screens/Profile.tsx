@@ -82,7 +82,7 @@ export function Profile(){
         <Input placeholder='Nome' bg={'gray.600'}/>
         <Input placeholder='Email' bg={'gray.600'} isDisabled/>
 
-        <Heading color={'gray.200'} fontSize={'md'} mt={'16'} mb={3} alignSelf={'flex-start'}>
+        <Heading color={'gray.200'} fontSize={'md'} mt={'16'} mb={3} alignSelf={'flex-start'} fontFamily={"heading"}>
             Alterar senha
           </Heading>
           <Input

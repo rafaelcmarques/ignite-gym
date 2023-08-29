@@ -23,7 +23,7 @@ export function Exercise(){
           </TouchableOpacity>
 
           <HStack justifyContent={'space-between'} alignItems={'center'} mt={4} mb={8}>
-            <Heading fontSize={'lg'} color={'gray.100'}>
+            <Heading fontSize={'lg'} color={'gray.100'} fontFamily={"heading"}>
               Puxada frontal
             </Heading>
             <HStack alignItems={'center'}>
