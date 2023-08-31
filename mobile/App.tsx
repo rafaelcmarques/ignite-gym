@@ -7,6 +7,9 @@ import { Routes } from '@routes/index';
 
 import {THEME} from './src/theme'
 
+import { AuthContext } from '@contexts/AuthContext';
+import { AuthContextProvider } from '@contexts/AuthContext';
+
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 
 export default function App() {
@@ -18,7 +21,11 @@ export default function App() {
           backgroundColor={'transparent'}
           translucent
       />
-     { fontsLoaded ? <Routes/> : <Loading/>}
+
+      <AuthContextProvider>
+        { fontsLoaded ? <Routes/> : <Loading/>}
+      </AuthContextProvider>
+
     </NativeBaseProvider>
   );
 }
