@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { HStack, VStack, FlatList, Heading, Text, useToast } from 'native-base';
 
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
@@ -17,13 +17,15 @@ export function Home(){
   const [isLoading, setIsLoading] = useState(true)
   const [groups, setGroups] = useState<string[]>([])
   const [exercises, setExercises] = useState<exerciseDTO[]>([])
-  const [groupSelected, setGroupSelected] = useState('costas')
+  const [groupSelected, setGroupSelected] = useState('antebraço')
 
   const navigation = useNavigation<AppNavigatorRoutesProps>()
   const toast = useToast()
+  const route = useRoute()
 
-  function handleOpenExerciseDetails(){
-    navigation.navigate('exercise')
+  function handleOpenExerciseDetails(exerciseId: string){
+    navigation.navigate('exercise', {exerciseId})
+
   }
 
   async function fetchGroups(){
@@ -110,7 +112,7 @@ export function Home(){
             keyExtractor={item => item.id}
             renderItem={({item}) => (
               <ExerciseCard 
-                onPress={handleOpenExerciseDetails}
+                onPress={() => handleOpenExerciseDetails(item.id)}
                 data={item}
                 />
             )}
