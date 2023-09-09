@@ -19,6 +19,9 @@ import { UserPhoto } from '@components/UserPhoto';
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 
+import defaultUserPhotoImg from '@assets/userPhotoDefault.png'
+
+
 const PHOTO_SIZE = 33
 
 type FormDataProps = {
@@ -52,7 +55,6 @@ const profileSchema = yup.object({
 export function Profile(){
   const [photoLoading, setPhotoLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(true)
-  const [userPhoto, setUserPhoto] = useState('https://github.com/rafaelcmarques.png')
 
   const toast = useToast()
   const { user,updateUserProfile } = useAuth()
@@ -92,7 +94,32 @@ export function Profile(){
           })
          
         }
-        setUserPhoto(photoSelected.assets[0].uri)
+        const fileExtension = photoSelected.assets[0].uri.split('.').pop()
+
+        const photoFile = {
+          name: `${user.name}.${fileExtension}`.toLocaleLowerCase(),
+          uri: photoSelected.assets[0].uri,
+          type: `${photoSelected.assets[0].type}/${fileExtension}`
+        } as any;
+
+        const userPhotoUploadForm = new FormData()
+        userPhotoUploadForm.append('avatar', photoFile)
+
+        const avatarUpdatedResponse = await api.patch('/users/avatar', userPhotoUploadForm, {
+          headers: {
+            'Content-Type' : 'multipart/form-data' 
+          }
+        })
+        
+        const userUpdated = user
+        userUpdated.avatar = avatarUpdatedResponse.data.avatar
+        updateUserProfile(userUpdated)
+
+        toast.show({
+          title: 'Foto alterada com sucesso.',
+          bgColor: 'green.500',
+          placement: 'top'
+        })
       }
   
     } catch (error) {
@@ -149,8 +176,9 @@ export function Profile(){
             /> :
             <UserPhoto 
               size={PHOTO_SIZE} 
-            source={{uri: userPhoto}}
-            alt='foto do usário'
+              source={user.avatar ? 
+                {uri: `${api.defaults.baseURL}/avatar/${user.avatar}`} : defaultUserPhotoImg}
+              alt='foto do usário'
             />
         }
 
